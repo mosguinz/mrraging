@@ -7,6 +7,9 @@ authors = ["mosguinz <mos.guinz@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 hume = {extras = ["stream"], version = "^0.4.1"}
+python-dotenv = "^1.0.0"
+websocket-client = "^1.6.4"
+opencv-python = "^4.8.1"
 
 [tool.poetry.dev-dependencies]
 
