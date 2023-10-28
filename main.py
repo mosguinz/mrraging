@@ -1,6 +1,7 @@
 import asyncio
 import threading
 import cv2
+from operator import itemgetter
 from hume import HumeStreamClient
 from hume.models.config import FaceConfig
 
@@ -23,7 +24,9 @@ async def send_to_hume(rb: bytes):
     async with hume_client.connect(hume_config) as socket:
         print("Connected to Hume")
         res = await socket.send_bytes(rb)
-        print(res)  # process return value
+        emotions = res['face']['predictions'][0]['emotions']
+        sortedEmotions = sorted(emotions, key=itemgetter('score'), reverse=True)
+        print("EMOTIONS: ", sortedEmotions[:5])  # process return value
         return res
 
 
