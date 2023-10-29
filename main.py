@@ -24,10 +24,23 @@ async def send_to_hume(rb: bytes):
     async with hume_client.connect(hume_config) as socket:
         print("Connected to Hume")
         res = await socket.send_bytes(rb)
-        emotions = res['face']['predictions'][0]['emotions']
-        sortedEmotions = sorted(emotions, key=itemgetter('score'), reverse=True)
-        print("EMOTIONS: ", sortedEmotions[:5])  # process return value
-    return res
+        try:
+            emotions = res['face']['predictions'][0]['emotions']
+            sortedEmotions = sorted(emotions, key=itemgetter('score'), reverse=True)
+            for emotion in emotions:
+                name = emotion['name']
+                score = emotion['score']
+                if name == 'Sadness':
+                    print('sad score: ', score)
+                if name == 'Calmness':
+                    print('Calm score: ', score)
+                if name == 'Anger':
+                    print('anger score: ', score)
+            #print("EMOTIONS: ", sortedEmotions[:5])  # process return value
+        except Exception as e:
+            print("no face detected probably")
+        #print(res)
+        return res
 
 
 async def webcam_loop():
