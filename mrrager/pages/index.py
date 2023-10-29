@@ -3,6 +3,7 @@
 from mrrager import styles
 from mrrager.templates import template
 from mrrager.components import cam_stream
+from mrrager.background import emotion_scan
 
 import reflex as rx
 
@@ -14,9 +15,11 @@ def index() -> rx.Component:
     Returns:
         The UI for the home page.
     """
-    return cam_stream.camera()
-
-    with open("README.md", encoding="utf-8") as readme:
-        content = readme.read()
-
-    return rx.markdown(content, component_map=styles.markdown_style)
+    return rx.vstack(
+        cam_stream.camera(),
+        rx.text(
+            "Emotions: ",
+            emotion_scan.EmotionScan.emotions,
+            on_click=emotion_scan.EmotionScan.update_emotions,
+        ),
+    )
